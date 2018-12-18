@@ -31,11 +31,11 @@ public class MyLeaderSelectorListenerAdapter extends LeaderSelectorListenerAdapt
     }
 
     @Override
-    public void takeLeadership(CuratorFramework curatorFramework) throws InterruptedException {
+    public void takeLeadership(CuratorFramework curatorFramework) {
         logger.info("{}:I am leader...", name);
         isLeader = true;
         while (isLeader) {
-            Thread.sleep(3000);
+
         }
     }
 

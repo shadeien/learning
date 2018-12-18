@@ -80,3 +80,5 @@ websocket设计时就考虑了扩展的问题，opcode 0x3-0x7 and 0xB-0xF, fram
 
 ## 连接关闭过程
 关闭过程就很简单，连接任一端想关闭websocket，就发一个close frame（opcode为0x8的就是close frame）给对端，对端收到该frame，若之前没有发过close frame，则必须回复一个close frame。发送或回复close frame后该端就不能再发任何frame，但可以接收数据(但不能保证能接受到所有对端在收到close frame之后且在响应close frame之前发的那些data frame)
+
+文章摘自：https://blog.csdn.net/a1282379904/article/details/52680904
