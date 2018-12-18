@@ -11,6 +11,7 @@
     <modules>
         <module>redis-publish-subscribe</module>
         <module>zk-leaderselector</module>
+        <module>leetcode</module>
     </modules>
 
     <parent>
