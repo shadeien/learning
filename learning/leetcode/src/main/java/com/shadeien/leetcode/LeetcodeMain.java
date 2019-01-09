@@ -7,6 +7,8 @@ import java.util.*;
 @Slf4j
 public class LeetcodeMain {
     public static void main(String[] args) {
+        log.info("xorshift 10:{}", xorshift(10));
+        log.info("xorshift -10:{}", xorshift(-10));
         int i = 0;
         int j = ++i;
         log.info("i:{}, n:{}", i, j);
@@ -61,6 +63,14 @@ public class LeetcodeMain {
         log.info("reach num : {}", num);
 
         log.info("minMalwareSpread:{}", minMalwareSpread(new int[][]{{1,1,1,0},{1,1,0,0},{1,0,1,0},{0,0,0,1}}, new int[]{3, 2}));
+    }
+
+    static int xorshift(int y) {
+        y  ^= (y<<6);
+        y  ^= (y>>>21);
+        y  ^= (y<<7);
+
+        return y;
     }
 
     static Map map = new LinkedHashMap();

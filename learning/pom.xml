@@ -12,6 +12,8 @@
         <module>redis-publish-subscribe</module>
         <module>zk-leaderselector</module>
         <module>leetcode</module>
+        <module>concurrent</module>
+        <module>dubbo</module>
     </modules>
 
     <parent>
@@ -49,6 +51,18 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>dev2</id>
+            <properties>
+                <profiles.active>dev2</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
