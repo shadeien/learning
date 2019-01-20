@@ -1,0 +1,11 @@
+apollo:
+  bootstrap:
+    enabled: true
+    # will inject 'application' and 'TEST1.apollo' namespaces in bootstrap phase
+#    namespaces: application,TEST1.apollo
+  meta: http://localhost:8080
+
+app:
+  id: SampleApp
+server:
+  port: 8081

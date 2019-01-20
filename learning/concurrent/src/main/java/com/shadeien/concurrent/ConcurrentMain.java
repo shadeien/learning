@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
@@ -33,8 +35,23 @@ public class ConcurrentMain {
     }
 
     public static void main(String[] args) throws InterruptedException {
+        park();
+//        doSomething();
+    }
 
-        doSomething();
+    public static void park() throws InterruptedException {
+        log.info("start");
+        System.nanoTime();
+        ThreadPoolExecutor exec = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
+        Thread t;
+        exec.submit(()->{
+           log.info("start thread");
+            LockSupport.parkNanos(Thread.currentThread().getName(), 10000*1000000);
+            log.info("end thread");
+        });
+        Thread.sleep(5000);
+        exec.shutdown();
+        log.info("end");
     }
 
     public static void test() {

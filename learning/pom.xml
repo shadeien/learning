@@ -14,6 +14,9 @@
         <module>leetcode</module>
         <module>concurrent</module>
         <module>dubbo</module>
+        <module>flink</module>
+        <module>kafka</module>
+        <module>disconf</module>
     </modules>
 
     <parent>

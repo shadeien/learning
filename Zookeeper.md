@@ -1,4 +1,5 @@
 # Zookeeper
+分布式协调服务
 
 官方给出了使用zk的几种用途：
 - Leader Election
@@ -7,6 +8,79 @@
 - Locks
 - Two-phased Commit
 - Others(Name Service/Configuration/Group Membership)
+
+## Znode
+
+- data: 存储的数据信息
+- ACL: 记录访问权限，
+- child: 子节点引用
+- stat: 元数据，比如事务ID，版本号，时间戳，大小等
+
+czxid. 节点创建时的zxid.
+mzxid. 节点最新一次更新发生时的zxid.
+ctime. 节点创建时的时间戳.
+mtime. 节点最新一次更新发生时的时间戳.
+dataVersion. 节点数据的更新次数.
+cversion. 其子节点的更新次数.
+aclVersion. 节点ACL(授权信息)的更新次数.
+ephemeralOwner. 如果该节点为ephemeral节点, ephemeralOwner值表示与该节点绑定的session id. 如果该节点不是ephemeral节点, ephemeralOwner值为0. 至于什么是ephemeral节点, 请看后面的讲述.
+dataLength. 节点数据的字节数.
+numChildren. 子节点个数.
+
+## 基本操作
+
+- create
+- delete
+- exists
+- getData
+- setData
+- getChildren
+
+其中，exists、getData、getChildren属于读操作，ZooKeeper客户端在请求读操作的时候，可以选择是否设置Watch
+
+## Watch
+注册在特定Znode上的触发器，当调用create、delete、setData方法的时候，会触发注册的对应事件，请求Watch的客户端会接收到异步通知
+具体交互过程如下：
+
+1. 客户端调用 getData 方法，Watch 参数是 true。服务端接到请求，返回节点数据，并且在对应的哈希表里插入被 Watch 的 Znode 路径，以及 Watcher 列表。
+2. 当被 Watch 的 Znode 已删除，服务端会查找哈希表，找到该 Znode 对应的所有 Watcher，异步通知客户端，并且删除哈希表中对应的 Key-Value。
+
+## 集群
+Zookeeper Service集群是一主多从结构.
+更新数据时，首先更新到主节点，再同步到从节点.
+读数据时，直接读取从节点.
+
+![集群图](pic/zookeeper.jpg)
+
+## 主从数据一致性(ZAB协议--Zookeeper Atomic Broadcast)
+Zab协议有两种模式，它们分别是恢复模式（选主）和广播模式（同步）
+
+ZAB三种节点状态：
+- Looking: 选举状态
+- Following: 从节点所处的状态
+- Leading: 主节点所处的状态
+- Observing: 观察状态
+
+最大ZXID，几点本地的最新事务编号，包含epoch(纪元)和计数两部分.
+
+恢复模式的三个阶段:
+1. Leader election
+此时集群中的节点处于Looking状态，他们会各自向其他节点发起投票，投票当中包含自己的服务器ID(sid)和最新事务ID(ZXID),以（sid，zxid）的形式来标识一次投票信息.当接收到其他节点的投票时，优先检查zxid，如果zxid相同，再比较sid，如果比自己大，就重新发起投票，投给目前已知的最大ZXID所属节点。每次投票后，都会统计投票数量，判断是否某个节点得到半数以上投票，如果存在，那个节点就成为准leader，状态变为Leading，其他节点变为Following。
+2. Discovery
+用于在从节点中发现最新的ZXID和事务日志，leader接受所有的Follower发来的各自最新的epoch值，leader从中选出最大的epoch，并+1，之后分发给各个Follower。各个Follower收到后，返回ACK给leader，并带上各自最大的ZXID和历史事务日志，leader选出最大的ZXID，并更新自身历史日志
+3. Synchronization
+Leader将刚才收集得到的最新历史事务日志，同步给集群中所有的 Follower。只有当半数 Follower 同步成功，这个准 Leader 才能成为正式的 Leader。
+
+广播模式：
+1. 客户端发出写入数据请求给任意Follower。
+2. Follower 把写入数据请求转发给 Leader。
+3. Leader 采用二阶段提交方式，先发送 Propose 广播给 Follower。
+4. Follower 接到 Propose 消息，写入日志成功后，返回 ACK 消息给 Leader。
+5. Leader 接到半数以上 ACK 消息，返回成功给客户端，并且广播 Commit 请求给 Follower。
+
+![boardcast](pic/zookeeper_boardcast.jpg)
+
+ZAB 协议既不是强一致性，也不是弱一致性，而是处于两者之间的单调一致性。它依靠事务 ID 和版本号，保证了数据的更新和读取是有序的。
 
 ## Apache Curator
 
