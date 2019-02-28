@@ -1,5 +1,6 @@
 package com.shadeien.leetcode.lambda;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -9,7 +10,30 @@ import java.util.stream.Stream;
 
 @Slf4j
 public class LambdaMain {
+
+    @Data
+    static
+    class RuleIndex {
+        private List<Object> areaId;
+
+        public RuleIndex(List<Object> asList) {
+            this.areaId = asList;
+        }
+    }
+
     public static void main(String[] args) {
+        RuleIndex ruleIndex1 = new RuleIndex(Arrays.asList(100l,101l));
+        RuleIndex ruleIndex2 = new RuleIndex(Arrays.asList(100l,101l));
+        List<RuleIndex> ruleIndexList = Arrays.asList(ruleIndex2, ruleIndex1);
+
+        Set<Long> longSet = new HashSet<>();
+        for (RuleIndex ruleIndex : ruleIndexList) {
+            longSet.addAll((List)ruleIndex.getAreaId());
+        }
+
+//        ruleIndexList.parallelStream().map(ruleIndex -> ruleIndex.getAreaId()).filter();
+
+
         IntStream integers = IntStream.range(1, 11);
         OptionalInt res4 = integers.reduce((i, j) -> i + j);
         log.info("IntStream:{}", res4.getAsInt());

@@ -29,6 +29,8 @@ public class JsonMain {
         ObjectMapper objectMapper = context.getBean(ObjectMapper.class);
         User user1 = objectMapper.readValue(str2, User.class);
         log.info("jackson:{}", user1);
+
+        context.close();
     }
 
     @Data
