@@ -14,4 +14,15 @@ public class SelectorController {
         MyLeaderSelectorListenerAdapter.isLeader = false;
         return "down";
     }
+
+    @GetMapping("/test")
+    public Object test() {
+        log.info("get down");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "down";
+    }
 }

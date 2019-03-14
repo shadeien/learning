@@ -1,0 +1,90 @@
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-cloud-gateway
+  security:
+    user:
+      name: bxz
+      password: bxzSecret
+      roles: ACTUATOR_ADMIN
+  jmx:
+    default-domain: ${spring.profiles.active}-gateway-demo
+  cloud:
+    zookeeper:
+      connectString: 192.168.6.21:2181,192.168.6.22:2181,192.168.6.23:2181,192.168.6.21:3888,192.168.6.22:3888,192.168.6.23:3888
+      discovery:
+        root: dev
+      preferIpAddress: true
+    gateway:
+      httpclient:
+        response-timeout: 4000
+        connect-timeout: 1000
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+          filters:
+          - name: RewritePath
+            args:
+              regexp: "'/'+serviceId+'/(?<remaining>.*)'"
+              replacement: "'/${remaining}'"
+          - name: Hystrix
+            args:
+              name: serviceId
+              fallbackUri: "'forward:/fallback'"
+#          - name: Retry
+#            args:
+#              retries: 2
+#              statuses:
+#              - "'INTERNAL_SERVER_ERROR'"
+#              - "'GATEWAY_TIMEOUT'"
+#              series:
+#              - "'SUCCESSFUL'"
+#              - "'SERVER_ERROR'"
+#              - "'CLIENT_ERROR'"
+#              methods:
+#              - "'GET'"
+#              - "'POST'"
+#              exceptions:
+#              - "'org.springframework.cloud.gateway.support.TimeoutException'"
+#              - "'java.util.concurrent.TimeoutException'"
+      routes:
+      - id: wsweb
+        uri: lb://bxzconnector
+        predicates:
+        - Path=/ws/**
+      - id: ws
+        uri: lb:ws:bxzconnector
+        predicates:
+        - Path=/ws/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: false
+  instance:
+#    initial-status: out_of_service
+apollo:
+  bootstrap:
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway
+
+hystrix:
+  command:
+    apollo:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
+server:
+  port: 8090
+
+

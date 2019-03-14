@@ -19,6 +19,7 @@
         <module>disconf</module>
         <module>spring-cloud-gateway</module>
         <module>webflux</module>
+        <module>eureka</module>
     </modules>
 
     <parent>
@@ -33,11 +34,18 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <lombok.version>1.18.4</lombok.version>
-        <curator-framework.version>2.12.0</curator-framework.version>
+        <curator-framework.version>4.2.0</curator-framework.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-framework</artifactId>
@@ -56,18 +64,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <profiles>
-        <profile>
-            <id>dev2</id>
-            <properties>
-                <profiles.active>dev2</profiles.active>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>

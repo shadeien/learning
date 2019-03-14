@@ -1,11 +1,29 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: apollo
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  jmx:
+    default-domain: ${spring.profiles.active}-apollo
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
 apollo:
   bootstrap:
-    enabled: true
+    enabled: false
     # will inject 'application' and 'TEST1.apollo' namespaces in bootstrap phase
 #    namespaces: application,TEST1.apollo
-  meta: http://localhost:8080
-
-app:
-  id: SampleApp
+  meta: http://localhost:8888
+#
+#app:
+#  id: SampleApp
 server:
-  port: 8081
+  port: 8082

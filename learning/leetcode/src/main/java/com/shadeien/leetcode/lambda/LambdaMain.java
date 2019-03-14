@@ -22,6 +22,8 @@ public class LambdaMain {
     }
 
     public static void main(String[] args) {
+//        String[] arg = {"1", "2"};
+//        Stream.of(arg).peek(o->log.info("test:{}", o)).collect();
         RuleIndex ruleIndex1 = new RuleIndex(Arrays.asList(100l,101l));
         RuleIndex ruleIndex2 = new RuleIndex(Arrays.asList(100l,101l));
         List<RuleIndex> ruleIndexList = Arrays.asList(ruleIndex2, ruleIndex1);
