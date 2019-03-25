@@ -8,13 +8,15 @@ spring:
 
 server:
   port: 8761
+  undertow:
+    direct-buffers: true
 
 eureka:
   instance:
-    hostname: 127.0.0.1
+#    hostname: 127.0.0.1
     prefer-ip-address: true
   client:
-#    register-with-eureka: false
+    register-with-eureka: false
     fetch-registry: false
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+#    service-url:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka

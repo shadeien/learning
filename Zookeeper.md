@@ -1,6 +1,9 @@
 # Zookeeper
 分布式协调服务
 
+zkcli -server 192.168.6.21:2181
+echo stat|nc 192.168.6.21 2181 查看版本
+
 官方给出了使用zk的几种用途：
 - Leader Election
 - Barriers

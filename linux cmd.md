@@ -25,7 +25,7 @@ Average:     all    0.10    0.00    0.10    0.00    0.00    0.00    0.00    0.00
 
 ## iostat
 
-例： iostat -d -k 2 1
+例： iostat -d -k 2 6
 参数-d表示显示设备磁盘的使用状态；-k表示某些使用block为单位的列强制使用kilobytes为单位，2表示数据每隔2秒刷新一次 6表示一共刷新6次
 
 Linux 3.10.0-327.el7.x86_64 (yankerp)   11/01/2017      _x86_64_        (1 CPU)
@@ -75,6 +75,9 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
 - id  空闲 CPU时间
 - wt 等待IO CPU时间
 
+## nicstat
+
+
 ## top
 能够实时监控系统的运行状态，并且可以按照cpu、内存和执行时间进行排序
 
@@ -86,3 +89,12 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
 - Free：可用有多少。
 - shared：多个进程共享的内存总额。
 - buffers/cached:磁盘缓存的大小。
+
+
+## egrep -i -r 'killed process' /var/log
+查看被系统kill的进程日志
+
+## netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}' 
+查看系统中waiting_close的数量
+
+## netstat -nap |grep :8009|grep CLOSE_WAIT | awk '{print $7}'|awk -F"\/" '{print $1}' |awk '!a[$1]++'  |xargs kill 

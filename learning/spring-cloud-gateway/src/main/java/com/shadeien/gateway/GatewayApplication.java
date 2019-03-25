@@ -23,12 +23,25 @@ public class GatewayApplication {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         return http
                 .authorizeExchange()
-//                .matchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-//                .pathMatchers("/userservice/**").permitAll()
                 .matchers(EndpointRequest.toAnyEndpoint()).authenticated()
+                .pathMatchers("/**/feign/**").denyAll()
                 .pathMatchers("/**").permitAll()
-                .and().httpBasic()
+                .and().formLogin()
                 .and().csrf().disable()
                 .build();
     }
+
+//    @Bean
+//    public SecurityWebFilterChain springSecurityFilterChain(WebSecurity web) {
+//        web.ignoring().
+//        return http
+//                .authorizeExchange()
+////                .matchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+////                .pathMatchers("/userservice/**").permitAll()
+//                .matchers(EndpointRequest.toAnyEndpoint()).authenticated()
+//                .pathMatchers("/**").permitAll()
+//                .and().httpBasic()
+//                .and().csrf().disable()
+//                .build();
+//    }
 }

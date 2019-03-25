@@ -1,9 +1,16 @@
 
+## 功能
+转发（禁止转发）  security可以直接denyAll
+负载             ribbon
+熔断             hystrix
+限流             ratelimit filter
+跨域             corsConfigurations
+文件上传 	     大文件上传
 
 ## 配置
 
 DiscoveryLocatorProperties: @ConfigurationProperties("spring.cloud.gateway.discovery.locator")
-```
+```java
 /** Flag that enables DiscoveryClient gateway integration */
 	private boolean enabled = false;
 
@@ -35,7 +42,7 @@ DiscoveryLocatorProperties: @ConfigurationProperties("spring.cloud.gateway.disco
 ```
 
 GatewayProperties: @ConfigurationProperties("spring.cloud.gateway")
-```
+```java
 List<RouteDefinition> routes // 路由定义，使用注册发现不在这边配置
 List<FilterDefinition> defaultFilters//默认的过滤器，使用注册发现时，不在这边配置
 List<MediaType> streamingMediaTypes = Arrays.asList(MediaType.TEXT_EVENT_STREAM,
@@ -44,7 +51,7 @@ List<MediaType> streamingMediaTypes = Arrays.asList(MediaType.TEXT_EVENT_STREAM,
 ```
 
 HttpClientProperties: @ConfigurationProperties("spring.cloud.gateway.httpclient")
-```
+```java
 /** The connect timeout in millis, the default is 45s. */
 	private Integer connectTimeout;
 
@@ -62,12 +69,12 @@ HttpClientProperties: @ConfigurationProperties("spring.cloud.gateway.httpclient"
 ```
 
 LoadBalancerProperties: @ConfigurationProperties("spring.cloud.gateway.loadbalancer")
-```
+```java
 private boolean use404; // 是否使用404，负载失败时fallback相关, 可以与hystrix相结合
 ```
 
 GlobalCorsProperties: @ConfigurationProperties("spring.cloud.gateway.globalcors")
-```
+```java
 final Map<String, CorsConfiguration>
 
 CorsConfiguration: {

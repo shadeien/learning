@@ -11,9 +11,15 @@ public class TestController {
     @Value("${server.port}")
     String port;
 
+    @Value("${timeout:100}")
+    String timeout;
+
+    @Value("${security.ignored}")
+    String root;
+
     @GetMapping("{a}")
     public Object test(@PathVariable("a") String a) {
-        System.out.println(System.currentTimeMillis());
+        System.out.println(System.currentTimeMillis()+":"+timeout);
 //        if (StringUtils.hasText("retry")) {
 //            throw new RuntimeException("retry");
 //        }
@@ -23,7 +29,7 @@ public class TestController {
         } catch (Exception e) {
 
         }
-        return port + ":" + a;
+        return port + ":" + a + ":"+root;
     }
 
 }

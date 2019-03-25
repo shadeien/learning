@@ -14,16 +14,18 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://172.16.4.176:8080/eureka/
 
 apollo:
   bootstrap:
-    enabled: false
+    enabled: true
     # will inject 'application' and 'TEST1.apollo' namespaces in bootstrap phase
-#    namespaces: application,TEST1.apollo
-  meta: http://localhost:8888
-#
-#app:
-#  id: SampleApp
+    namespaces: application,business,bxz.common
+  meta: http://172.16.4.176:8080
+
+
+app:
+  id: bxz-warehouse
+
 server:
   port: 8082
