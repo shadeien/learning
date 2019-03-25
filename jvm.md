@@ -31,6 +31,7 @@
 5. 没有足够内存进行实例分配，并且无法扩展时，将抛出OutOfMemoryError
 
 Default Xmx = MaxRAM / MaxRAMFraction
+
 | 编译器         | MaxRAM  | 默认Xms |
 | -----         | -----    | ------- |
 | 32bit-client  | 1GB      | 1/4GB   |
@@ -100,6 +101,7 @@ if (InitialRAMFraction<OldSize) {
 并不适用于新生代的分区，但是采用预定义的分区能够便于代的大小调整。
 ```
 分区大小=1<<log(初始堆的大小/2048), 2的幂等
+
 | 堆大小      | 默认G1分区的大小 |
 | -----       | -----		 :|
 | <4GB        | 1MB:|
