@@ -22,6 +22,22 @@ public class LambdaMain {
     }
 
     public static void main(String[] args) {
+
+        List<Long> userIds = new ArrayList<>();
+        List<Long> arrs = Arrays.asList(1l, 2l, 3l, 4l, 5l);
+        for (Long cardId : arrs) {
+            List<Long> currentList = new ArrayList<>();
+            currentList.add(1l);
+            currentList.add(3l);
+            currentList.add(cardId);
+            if (userIds.size() == 0) {
+                userIds = currentList;
+            } else {
+                userIds = (List<Long>) org.apache.commons.collections4.CollectionUtils.intersection(currentList, userIds);
+            }
+        }
+        log.info("list:{}", userIds);
+
 //        String[] arg = {"1", "2"};
 //        Stream.of(arg).peek(o->log.info("test:{}", o)).collect();
         RuleIndex ruleIndex1 = new RuleIndex(Arrays.asList(100l,101l));
@@ -41,6 +57,7 @@ public class LambdaMain {
         log.info("IntStream:{}", res4.getAsInt());
 
         List<String> list = Arrays.asList("test","hello","world","java","tom","C","javascript");
+
         list.stream().filter((s)->s.startsWith("j")).peek((st)->log.info("peek:{}", st)).collect(Collectors.toList());
         boolean res5 = list.stream().anyMatch((s) -> s.startsWith("j"));
         log.info("anyMatch((s) -> s.startsWith(\"j\")):{}", res5);

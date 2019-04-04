@@ -73,7 +73,7 @@ if (InitialRAMFraction<OldSize) {
 -XX:+UseParNewGC       收集新生代空间
 -XX:+UseG1GC           收集新生代空间
 
-```
+```java
 #应用可承受的最大停顿时间，缺省情况下，我们不设定该参数
 -XX:MaxGCPauseMillis=n  
 #应用在垃圾回收上花费的时间百分比ThroughputGoal=1-1/(1+GCTimeRatio)，默认值:99
@@ -81,7 +81,7 @@ if (InitialRAMFraction<OldSize) {
 ```
 
 ### CMS
-```
+```java
 #默认值：70；CMS会在老年代空间占用达到70%时启动并发收集周期
 -XX:CMSInitialtingOccupancyFranction=N
 #默认值：false
@@ -109,7 +109,7 @@ if (InitialRAMFraction<OldSize) {
 | 32GB<>64GB  | 16MB|
 | >64GB    	  | 32MB|
 
-```
+```java
 #分区大小=1<<log(初始堆的大小/2048), 2的幂等
 -XX:G1HeapRegionSize=N
 ```
@@ -131,7 +131,7 @@ if (InitialRAMFraction<OldSize) {
 - 疏散失败 [(to-space overflow)]---增加堆大小
 - 巨型对象
 
-```
+```java
 #默认值：200ms, 调整新生代和老年代的比例，调整堆大小，更早启动后台处理，改变晋升阈值，在混合式垃圾收集周期中处理更多或更少的老年代分区（最重要方式）
 -XX:MaxGCPauseMillis=N
 #调整G1的后台线程数ConcGCThreads=(ParallelGCThreads+2)/4
@@ -145,7 +145,7 @@ if (InitialRAMFraction<OldSize) {
 ```
 
 ## survivor
-```
+```java
 #默认值:8,survivor_space_size=new_size/(initial_survivor_ratio+2)
 -XX:InitialSurvivorRatio=N
 #默认值：3，maximum_survivor_space_size=new_size/(min_survivor_ratop+2)
@@ -187,17 +187,16 @@ java介于两者之间
 
 ### 调优代码缓存
 缓存满了后会有警告
-```
+```java
 Java HotSpot(TM) 64-Bit Server VM warning: CodeCache is full.
 Compiler has been disabled
 Java HotSpot(TM) 64-Bit Server VM warning: Try increasing the code cache size using -XX:ReservedCacheSize=???
 ```
 
-默认大小
-```
-64位 server, 分层编译, JAVA 8 240MB
-64位 server, 分层编译, JAVA 7 96MB
-```
+|虚拟机版本|编译模式|默认大小|
+|---------|-------|--------|
+|64位 server|分层编译|JAVA 8 240MB|
+|64位 server|分层编译|JAVA 7 96MB|
 
 ### 编译阈值
 基于两种JVM计数器： 方法调用计数器 & 方法中的循环回边计数器
@@ -215,11 +214,12 @@ ComileThreshold -server= 10,000
 
 ### jcmd 
 打印JAVA进程所涉及的基本类、线程和VM信息。
+```java
 % jcmd process_id command optional_arguments
 
 % jcmd help
 
-```
+
 #查看JVM运行时长
 jcmd process_id VM.uptime
 #显示System.getProperties()的各个条目
@@ -234,6 +234,10 @@ jcmd process_id VM.command_line
 jcmd process_id VM.flags [-all]
 #显示每个线程栈的输出
 jcmd process_id Thread.print
+#堆直方图
+jcmd process_id GC.class_histogram
+#堆转储
+jcmd process_id GC.heap_dump /root/heap_dump.hprof
 ```
 
 ### jconsole
@@ -241,18 +245,24 @@ jcmd process_id Thread.print
 可以通过JMX查看远程JVM
 
 ### jhat
-读取内存堆转储，并有助于分析。
+读取内存堆转储，并有助于分析。并运行一个小型的HTTP服务器，该服务允许你通过一系列网页链接查看堆转储信息.
 
 ### jamp
 提供堆转储和其他JVM内存使用信息
-```
+```java
 %  jmap -clstats process_id
+#堆直方图,含死对象
+jmap -histo process_id
+#堆直方图,不含死对象
+jmap -histo:live process_id
+#堆转储,因为‘:live’会在转储之前强制一次Full GC
+jmap -dump:live,file=/root/heap_dump.hprof process_id
 ```
 
 ### jinfo
 查看JVM系统属性，可以动态设置一些系统属性
 
-```
+```java
 jinfo -flags process_id
 # 只对manageable标示有效
 jinfo -flag PrintGCDetails process_id # turns off PrintGCDtails 
@@ -263,7 +273,7 @@ jinfo -flag PrintGCDetails process_id # turns off PrintGCDtails
 ### jstack
 转储JAVA进程的栈信息
 
-```
+```java
 #显示每个线程的栈的输出
 jstack process_id
 ```
@@ -271,10 +281,106 @@ jstack process_id
 ### jstat
 提供GC和类装载活动信息
 
-```
+```java
 #间隔时间(1000ms)展示gc情况
 % jstat -gcutil process_id 1000
 ```
 
 ### jvisualvm
 监视JVM的GUI工具，分析JVM堆转储
+监视(Monitor)选项卡可以从一个运行中的程序获得堆转储，也可以打开之前生成的堆转储文件，可以浏览堆，检查最大的保留对象，一级执行任意针对堆的查询.
+
+## 内存分析
+
+浅(shallow) & 深(deep) & 保留(retained).
+一个对象的浅大小，指的是该对象本身的大小，如果该对象包含一个指向另一个对象的引用，4字节或8字节的引用会计算在内，但目标对象的大小不会包含进来.
+深大小则包含那些对象的大小。深大小和保留大小的区别在于那些存在共享的对象
+
+## 内存溢出错误
+- JVM没有原生内存可用
+- 永久代或元空间内存不足
+- Java堆本身内存不足--对于给定的堆空间，应用中活跃对象太多
+- JVM执行GC耗时太多
+
+1. 原生内存不足
+表现:
+```java
+Exception in thread "main" java.lang.OutOfMemoryError:
+unable to create new native thread
+```
+如果OutOfMemoryError中提到了原生内存分配，那对堆进行调优解决不了问题，需要看下错误中提到的是何种原生内存问题.
+
+2. 永久代或元空间内存不足
+表现:
+```java
+Exception in thread "main" java.lang.OutOfMemoryError:
+Metaspace
+PermGen space
+```
+根源：
+- 应用使用的类太多，超出永久代的默认容纳范围
+- 类加载器的内存泄露. 重新部署时，会创建一个新的类加载器来加载新的类，老的类加载器就可以退出作用域了，这样该类的元数据就可以回收了，如果老的类加载器没有退出作用域，那么就会导致该问题
+
+解决：
+- 增加永久代或元空间大小
+- 联系服务器厂商解决内存泄露, 在直方图中找到ClassLoader类的所有实例，然后跟踪他们的GC Root
+
+3. 堆内存不足
+表现:
+```java
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+```
+
+根源：
+- 活跃对象过多
+- 内存泄露
+
+解决：
+- 增加堆大小
+- 堆转储分析, 间隔几分钟，获得连续的一些堆转储文件，进行比较
+MAT内置功能，可以进行对比
+
+自动堆转储
+```java
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:HeapDumpPath=<path>
+-XX:+HeapDumpAfterFullGC
+-XX:+HeapDumpBeforeFullGC
+```
+
+集合类是导致内存泄露的最常见原因：只插入，不释放
+最好的办法是修改逻辑，主动删除不需要的条目，另外，可以使用弱引用或软引用的集合
+
+4. 达到GC的开销限制
+表现：
+```java
+Exception in thread "main" java.lang.OutOfMemoryError:GC overhead limit exceeded
+```
+
+需满足以下所有条件
+- 花在Full GC上的时间超过-XX:GCTimeLimit=N标志所指定的值，默认值98.即98%的时间花在GC上，则满足该条件
+- 一次Full GC回收的内存量少于-XX:GCHeapFreeLimit=N标志指定的值，默认值2，即Full GC期间释放的内存不足堆的2%，则满足该条件
+- 上述两条连续5次Full GC均成立（无法调整该值）
+- -XX:+UseGCOverhead-Limit(默认为true)
+
+如果连续执行了5次以上的Full GC，并且应用将98%的时间花在Full GC上，有可能每次GC释放的堆空间可能会超过2%，这种情况下可以考虑增加GCHeapFreeLimit的值
+
+如果前两个条件连续4次Full GC周期都成立，JVM会在第5次之前，释放所有的软引用，这样第5次的Full GC就可能会释放超过2%的堆内存
+
+## 减少内存使用
+
+减少对象大小
+
+|类型|Java实例变量大小|
+|----|--------------:|
+|byte|1|
+|char|2|
+|short|2|
+|int|4|
+|float|4|
+|long|8|
+|double|8|
+|refrence|4,32位&heap<32GB的64位JVM|
+|refrence|8,heap>32GB的64位JVM|
+
+隐藏对象头字段，对于普通对象，对象头在32位JVM占8字节，64位JVM占16字节，对于数组，对象头在32位及堆小于32GB的64位JVM上占16字节，其他情况占64字节
