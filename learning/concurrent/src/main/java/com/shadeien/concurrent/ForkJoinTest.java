@@ -1,10 +1,8 @@
 package com.shadeien.concurrent;
 
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.RecursiveTask;
+import java.util.concurrent.*;
 
 public class ForkJoinTest {
-    private static double[] d;
 
     private static class ForkJoinTask extends RecursiveTask<Integer> {
         private int first;
@@ -21,9 +19,7 @@ public class ForkJoinTest {
             if (last - first < 10) {
                 subCount = 0;
                 for (int i=first; i<=last; i++) {
-                    if (d[i] < 0.5) {
-                        subCount++;
-                    }
+                        subCount+=i;
                 }
             } else {
                 int mid = (first + last) >>> 1;
@@ -39,7 +35,18 @@ public class ForkJoinTest {
     }
 
     public static void main(String[] args) {
-        d = new double[]{1, 2, 3};
-        int n = new ForkJoinPool().invoke(new ForkJoinTask(0, 999999));
+        ForkJoinPool pool = new ForkJoinPool();
+        ForkJoinTask task = new ForkJoinTask(0, 1000000);
+        long start = System.currentTimeMillis();
+        int n = pool.invoke(task);
+        System.out.println(n+" end diff:"+ (System.currentTimeMillis() - start));
+
+        start = System.currentTimeMillis();
+        int total = 0;
+        for (int i=0; i<=1000000; i++) {
+            total +=i;
+        }
+        System.out.println(total+" end diff:"+ (System.currentTimeMillis() - start));
     }
+
 }

@@ -20,6 +20,8 @@
         <module>spring-cloud-gateway</module>
         <module>webflux</module>
         <module>eureka</module>
+        <module>drools</module>
+        <module>proxy</module>
     </modules>
 
     <parent>

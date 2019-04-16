@@ -1,0 +1,38 @@
+package rules.refuse
+import com.shadeien.drools.Refuse
+
+global java.util.HashMap refuseDate
+
+rule "baseMessage"
+	no-loop true
+	lock-on-active true
+	salience 0
+	when
+		$re:Refuse(age>=60||age<22)
+	then
+		System.out.println("baseMessage==="+$re);
+		refuseDate.put("name","0");
+end
+
+
+rule "baseMessage2"
+	no-loop true
+	lock-on-active true
+	salience 2
+	when
+		$re:Refuse(age>=60||age<22)
+	then
+		System.out.println("baseMessage2==="+$re);
+		refuseDate.put("name","ggggg");
+end
+
+rule "baseMessage1"
+	no-loop true
+	lock-on-active true
+	salience 1
+	when
+		$re:Refuse(age<60&&age>=22)
+	then
+		System.out.println("baseMessage1==="+$re);
+		refuseDate.put("name","0");
+end
