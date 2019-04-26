@@ -23,7 +23,7 @@
 这里的多线程指的是业务处理多线程，reactor仍然为单个线程
 
 ### 2级reactor
-![2级reactor](pic/reactor3.png)
+![2级reactor](pic/reactor3.jpg)
 
 - mainReactor负责监听连接，accept连接给subReactor处理
 
