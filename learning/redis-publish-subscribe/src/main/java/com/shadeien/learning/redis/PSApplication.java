@@ -18,13 +18,14 @@ public class PSApplication {
         RedisPublisher publisher = context.getBean(RedisPublisher.class);
         RedisSubscriber subscriber = context.getBean(RedisSubscriber.class);
 
-        String topic = "subscribe:topic";
-        subscriber.subscribe(topic);
+        String topic = "__keyevent@0__:expired";
+//        String topic = "subscribe:topic";
+//        subscriber.subscribe(topic);
         Thread.sleep(1000);
-        publisher.publish(topic, "publish");
+        publisher.setExpired("abc", "publish", 5);
 
         context.registerShutdownHook();
-        Thread.sleep(3000);
+        Thread.sleep(60000);
         context.close();
     }
 

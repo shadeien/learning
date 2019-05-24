@@ -1,4 +1,6 @@
 spring:
+#  webflux:
+#    static-path-pattern: /resources/static/**
   profiles:
     active: dev
   application:
@@ -10,19 +12,20 @@ spring:
       roles: ACTUATOR_ADMIN
   jmx:
     default-domain: ${spring.profiles.active}-gateway-demo
+    enabled: false
   cloud:
-    zookeeper:
-      connectString: 192.168.6.21:2181,192.168.6.22:2181,192.168.6.23:2181,192.168.6.21:3888,192.168.6.22:3888,192.168.6.23:3888
-      discovery:
-        root: dev
-      preferIpAddress: true
+#    zookeeper:
+#      connectString: 192.168.6.21:2181,192.168.6.22:2181,192.168.6.23:2181,192.168.6.21:3888,192.168.6.22:3888,192.168.6.23:3888
+#      discovery:
+#        root: dev
+#      preferIpAddress: true
     gateway:
       httpclient:
         response-timeout: 30000
         connect-timeout: 1000
       discovery:
         locator:
-          enabled: true
+          enabled: false
           lower-case-service-id: true
           filters:
           - name: RewritePath
@@ -71,10 +74,16 @@ apollo:
     enabled: false
 
 management:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        step: 1m
+        descriptions: true
   endpoints:
     web:
       exposure:
-        include: gateway
+        include: prometheus,gateway
 
 hystrix:
 #  threadpool:

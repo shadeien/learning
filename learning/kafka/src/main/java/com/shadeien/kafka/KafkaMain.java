@@ -16,15 +16,17 @@ import org.springframework.retry.support.RetryTemplate;
 @SpringBootApplication
 public class KafkaMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ConfigurableApplicationContext context = SpringApplication.run(KafkaMain.class, args);
         KafkaTemplate kafkaTemplate = context.getBean(KafkaTemplate.class);
 //        for (int i = 0; i < 10; i++) {
 //            kafkaTemplate.send("kafkaLearning", "test");
 //        }
-        kafkaTemplate.send("kafkaLearning", "test");
+        kafkaTemplate.send("REPEAT_ADD_CARD_AUTHORITY", "{\"authorityType\":3,\"authorizeUserId\":10001101,\"batch\":false,\"beauthorizedUserId\":10009345,\"businessUnitId\":910002024,\"cardId\":42439000000001005,\"invalidDate\":1558483920000,\"validDate\":1558397700000}");
 
+        Thread.sleep(10000);
         context.registerShutdownHook();
+        context.close();
     }
 
 //    @Bean

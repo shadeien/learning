@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 @Slf4j
 @Component
 public class RedisPublisher {
@@ -20,5 +22,10 @@ public class RedisPublisher {
     public void publish(String topic, Object data) {
         log.info("publish channel:{}, with data:{}", topic, data);
         redisTemplate.convertAndSend(topic, data);
+    }
+
+    public void setExpired(String key, Object data, long timeout) {
+        redisTemplate.opsForValue().set(key, data);
+        redisTemplate.expire(key, timeout, TimeUnit.SECONDS);
     }
 }

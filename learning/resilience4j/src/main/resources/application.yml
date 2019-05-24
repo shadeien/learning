@@ -1,0 +1,35 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: resilience4j
+  jmx:
+    default-domain: ${spring.profiles.active}-gateway-demo
+    enabled: false
+
+management:
+#  metrics:
+#    export:
+#      prometheus:
+#        enabled: true
+#        step: 1m
+#        descriptions: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+resilience4j.circuitbreaker:
+  backends:
+    backendA:
+      ringBufferSizeInClosedState: 5
+      ringBufferSizeInHalfOpenState: 3
+      waitInterval: 5000
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+      registerHealthIndicator: true
+#      recordFailurePredicate: com.foo.FooRecordFailurePredicate
+      recordExceptions:
+      - org.springframework.web.client.HttpServerErrorException
+#      ignoreExceptions:
+#      - org.springframework.web.client.HttpClientErrorException

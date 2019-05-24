@@ -2,10 +2,55 @@
 <configuration>
     <property name="LOG_FILE" value="g://logs//gateway.log}"/>
     <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <springProperty scope="context" name="springAppName" source="spring.application.name" />
     <logger name="org.springframework.cloud" level="TRACE" />
 
     <springProfile name="dev">
         <logger name="com.shadeien.webflux" level="TRACE" />
     </springProfile>
 
+    <!-- Appender to log to file in a JSON format -->
+    <appender name="logstash" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}.json</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.json.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "severity": "%level",
+                        "service": "${springAppName:-}",
+                        "trace": "%X{X-B3-TraceId:-}",
+                        "span": "%X{X-B3-SpanId:-}",
+                        "parent": "%X{X-B3-ParentSpanId:-}",
+                        "exportable": "%X{X-Span-Export:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "rest": "%message"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <!--<appender-ref ref="console"/>-->
+         <!--uncomment this to have also JSON logs-->
+        <appender-ref ref="logstash"/>
+        <!--<appender-ref ref="flatfile"/>-->
+    </root>
+    <!--
+    <root level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+	-->
 </configuration>
