@@ -3,6 +3,7 @@ package com.shadeien.webflux.controller;
 import com.shadeien.webflux.jpa.service.DeviceInfoService;
 import com.shadeien.webflux.jpa.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.rabbitmq.OutboundMessage;
+import reactor.rabbitmq.Sender;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -26,6 +29,33 @@ public class WebFluxController {
 
     @Autowired
     DeviceInfoService deviceInfoService;
+
+    @Autowired
+    Sender sender;
+
+    @GetMapping("/rabbitTest")
+    public Mono<String> rabbitTest() {
+        Flux<OutboundMessage> outboundFlux  = Flux.range(1, 10)
+                .map(i -> new OutboundMessage(
+                        "reactive.exchange",
+                        "a.b",
+                         "hello".getBytes()
+                ));
+
+        sender.sendWithPublishConfirms(outboundFlux).subscribe(res -> log.info("res:{}", res));
+
+        return Mono.just("success");
+
+    }
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
+    @GetMapping("/rabbitTemplateTest")
+    public void rabbitTemplateTest() {
+        rabbitTemplate.convertAndSend("reactive.exchange", "a.b",
+                "hello".getBytes());
+    }
 
     @GetMapping("/test")
     public Object test() {

@@ -13,8 +13,12 @@ public class RedisService {
     @Autowired
     ReactiveRedisTemplate redisTemplate;
 
+//    AsyncRabbitTemplate
+
     public Mono<Boolean> test() {
         log.info("redis test");
-        return redisTemplate.opsForValue().set("a", "b");
+         redisTemplate.opsForValue().set("a", "b").subscribe(s->log.info("{}", s));
+
+         return Mono.just(Boolean.TRUE);
     }
 }
