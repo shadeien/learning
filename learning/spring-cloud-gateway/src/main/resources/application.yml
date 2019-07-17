@@ -14,11 +14,11 @@ spring:
     default-domain: ${spring.profiles.active}-gateway-demo
     enabled: false
   cloud:
-#    zookeeper:
-#      connectString: 192.168.6.21:2181,192.168.6.22:2181,192.168.6.23:2181,192.168.6.21:3888,192.168.6.22:3888,192.168.6.23:3888
-#      discovery:
-#        root: dev
-#      preferIpAddress: true
+    zookeeper:
+      connectString: 192.168.6.21:2181,192.168.6.22:2181,192.168.6.23:2181,192.168.6.21:3888,192.168.6.22:3888,192.168.6.23:3888
+      discovery:
+        root: dev
+      preferIpAddress: true
     gateway:
       httpclient:
         response-timeout: 30000
@@ -76,6 +76,20 @@ apollo:
 management:
   metrics:
     export:
+#      influx:
+#        enabled: true
+#        db: springboot
+#        uri: http://192.168.6.74:5000
+#        #        user-name:
+#        #        password:
+#        connect-timeout: 1s
+#        read-timeout: 10s
+#        auto-create-db: true
+#        step: 1m
+#        num-threads: 2
+#        consistency: one
+#        compressed: true
+#        batch-size: 10000
       prometheus:
         enabled: true
         step: 1m
@@ -83,7 +97,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: prometheus,gateway
+        include: prometheus,gateway,health,info,env,metrics
 
 hystrix:
 #  threadpool:

@@ -34,13 +34,13 @@ public class JsonMain {
     }
 
     @Data
-    static class User {
+    public static class User {
         Sex sex;
         int age;
         String name;
     }
 
-    enum Sex {
+    public enum Sex {
         MALE,
         FEMALE;
     }

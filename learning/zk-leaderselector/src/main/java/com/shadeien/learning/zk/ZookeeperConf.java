@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import java.net.UnknownHostException;
 
@@ -21,7 +22,16 @@ public class ZookeeperConf {
     private String zkUrl;
 
     @Bean
+    @Primary
     public CuratorFramework getCuratorFramework() throws UnknownHostException {
+        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000,3);
+        CuratorFramework client = CuratorFrameworkFactory.newClient(zkUrl, 15000, 5000, retryPolicy);
+        client.start();
+
+        return client;
+    }
+    @Bean
+    public CuratorFramework getCuratorFramework1() throws UnknownHostException {
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000,3);
         CuratorFramework client = CuratorFrameworkFactory.newClient(zkUrl, 15000, 5000, retryPolicy);
         client.start();

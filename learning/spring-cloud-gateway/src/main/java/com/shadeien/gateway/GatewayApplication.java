@@ -26,7 +26,8 @@ public class GatewayApplication {
                 .matchers(EndpointRequest.toAnyEndpoint()).authenticated()
                 .pathMatchers("/**/feign/**").denyAll()
                 .pathMatchers("/**").permitAll()
-                .and().formLogin()
+//                .and().formLogin()
+                .and().httpBasic()
                 .and().csrf().disable()
                 .build();
     }

@@ -2,6 +2,10 @@ package com.shadeien.concurrent;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -35,8 +39,23 @@ public class ConcurrentMain {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        park();
-//        doSomething();
+
+
+//        park();
+//        doSomething();\
+        TreeMap<String, String> map = new TreeMap<>();
+        map.put("a", "a");
+        map.put("b", "a");
+//        map.put("c", "a");
+        map.put("d", "a");
+        map.put("e", "a");
+        Map<String, String> synchronizedMap = Collections.synchronizedMap(map);
+        synchronizedMap.put("c", "a");
+        synchronizedMap.put("f", "a");
+
+        SortedMap<String, String> res = map.headMap("d");
+        System.out.println(res);
+        System.out.println(synchronizedMap);
     }
 
     public static void park() throws InterruptedException {

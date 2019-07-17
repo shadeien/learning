@@ -25,6 +25,8 @@
         <module>math</module>
         <module>resilience4j</module>
         <module>reactor</module>
+        <module>jmh</module>
+        <module>hessain</module>
     </modules>
 
     <parent>
