@@ -90,6 +90,49 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
 - shared：多个进程共享的内存总额。
 - buffers/cached:磁盘缓存的大小。
 
+## ln
+ln命令用于将一个文件创建链接,链接分为软链接(类似于windows系统中的快捷方式)和硬链接(相当于对源文件copy,程序或命令对该文件block的另一个访问路口)，命令默认使用硬链接。
+
+软链接：不可以删除源文件，删除源文件导致链接文件找不到，出现文件红色闪烁
+硬链接：可以删除源文件，链接文件可以正常打开
+
+1.对文件创建软链接
+```
+[root@ping ~]# ln -s /root/student.sql /root/db/ln.sql
+[root@ping ~]# ls -lh db/ln.sql
+lrwxrwxrwx 1 root root 17 2月  23 15:31 db/ln.sql -> /root/student.sql
+```
+
+2.对目录创建软链接
+```
+[root@ping ~]# ln -s db data
+[root@ping ~]# ll -h data/
+lrwxrwxrwx 1 root root 17 2月  23 15:31 ln.sql -> /root/student.sql
+[root@ping ~]# ln student.sql db/
+```
+
+3.对文件创建硬链接
+```
+[root@ping ~]# ln student.sql db/
+[root@ping ~]# ls -lh db/
+lrwxrwxrwx 1 root root   17 2月  23 15:31 ln.sql -> /root/student.sql
+-rw-r--r-- 2 root root 2.9K 2月  12 10:17 student.sql
+```
+
+## df
+
+查看每个硬盘分区的inode总数和已使用数量
+```
+[root@localhost txt]# df -i
+Filesystem                Inodes IUsed    IFree IUse% Mounted on
+/dev/mapper/centos-root 37191680 90379 37101301    1% /
+devtmpfs                 1019586   373  1019213    1% /dev
+tmpfs                    1021998     1  1021997    1% /dev/shm
+tmpfs                    1021998   475  1021523    1% /run
+tmpfs                    1021998    13  1021985    1% /sys/fs/cgroup
+/dev/sda1                 512000   329   511671    1% /boot
+tmpfs                    1021998     1  1021997    1% /run/user/0
+```
 
 ## egrep -i -r 'killed process' /var/log
 查看被系统kill的进程日志
