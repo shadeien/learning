@@ -27,7 +27,7 @@ import static reactor.rabbitmq.ExchangeSpecification.exchange;
 import static reactor.rabbitmq.QueueSpecification.queue;
 
 @SpringBootApplication
-@EnableDiscoveryClient(autoRegister = false)
+@EnableDiscoveryClient(autoRegister = true)
 @EnableJpaAuditing
 @Slf4j
 public class WebFluxApplication {

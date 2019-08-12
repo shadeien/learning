@@ -1,5 +1,6 @@
 package com.shadeien.jmh;
 
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
@@ -8,6 +9,7 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -60,6 +62,13 @@ public class JMHFirstBenchmark {
 
     public static void main(String[] args) throws RunnerException {
 //        const String a = "";
+//        Maps.newHashMapWithExpectedSize(2);
+        Maps.newHashMapWithExpectedSize(50);
+        HashMap<Object, Object> map = new HashMap<>(50);
+        map.put("a", "b");
+
+        Object data = map.get("a");
+        log.info("{}", data);
         // 可以通过注解
         Options opt = new OptionsBuilder()
                 .include(JMHFirstBenchmark.class.getSimpleName())

@@ -44,6 +44,7 @@ public class WebFluxController {
 
         sender.sendWithPublishConfirms(outboundFlux).subscribe(res -> log.info("res:{}", res));
 
+        log.info("success");
         return Mono.just("success");
 
     }

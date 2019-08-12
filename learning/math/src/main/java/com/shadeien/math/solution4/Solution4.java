@@ -14,6 +14,7 @@ public class Solution4 {
 
         Queue queue = new ConcurrentLinkedQueue(Arrays.asList(sort));
         int i = 0;
+
         Object data;
         while ((data=queue.poll()) != null) {
             i++;

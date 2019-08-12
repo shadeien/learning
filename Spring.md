@@ -37,7 +37,7 @@ XmlBeanFactory 继承自DefaultListableBeanFactory， 是spring注册及加载be
 
 7. 寻找依赖
 
-因为bean的初始化过程很可能会用到某些属性，而某些属性很可能是动态配置的，并且配置成依赖于其他的bean，那么这个时候就有必要先加载依赖的bean，所以，在Spring的加载顺寻中，在初始化某一个bean的时候首先会初始化这个bean所对应的依赖
+因为bean的初始化过程很可能会用到某些属性，而某些属性很可能是动态配置的，并且配置成依赖于其他的bean，那么这个时候就有必要先加载依赖的bean，所以，在Spring的加载顺序中，在初始化某一个bean的时候首先会初始化这个bean所对应的依赖
 
 8. 针对不同的scope进行bean的创建
 
@@ -45,7 +45,7 @@ XmlBeanFactory 继承自DefaultListableBeanFactory， 是spring注册及加载be
 
 9. 类型转换
 
-程序到这里返回bean后已经基本结束了，通常对该方法的调用参数requiredType是为空的，但是可能会存在这样的情况，返回的bean其实是个Spring，但是requiredType却传入Integer类型，那么这时候本步骤就会起作用了，它的功能是将返回的bean转换为requiredType所指定的类型，当然，Spring转换为Integer是最简单的一种转换，在Spring中提供了各种各样的转换器，用户也可以自己扩展转换器来满足需求
+程序到这里返回bean后已经基本结束了，通常对该方法的调用参数requiredType是为空的，但是可能会存在这样的情况，返回的bean其实是个String，但是requiredType却传入Integer类型，那么这时候本步骤就会起作用了，它的功能是将返回的bean转换为requiredType所指定的类型，当然，String转换为Integer是最简单的一种转换，在Spring中提供了各种各样的转换器，用户也可以自己扩展转换器来满足需求
 
 
 ## MVC
@@ -53,24 +53,24 @@ XmlBeanFactory 继承自DefaultListableBeanFactory， 是spring注册及加载be
 请求开始---> dispatchServlet ---> handlerMapping-->返回一个handler-->提交给handlerAdapter执行-->执行完返回ModelAndView-->给ViewResolver解析-->产生view
 
 SpringMVC流程
-1、  用户发送请求至前端控制器DispatcherServlet。
+1. 用户发送请求至前端控制器DispatcherServlet。
 
-2、  DispatcherServlet收到请求调用HandlerMapping处理器映射器。
+2. DispatcherServlet收到请求调用HandlerMapping处理器映射器。
 
-3、  处理器映射器找到具体的处理器(可以根据xml配置、注解进行查找)，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet。
+3. 处理器映射器找到具体的处理器(可以根据xml配置、注解进行查找)，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet。
 
-4、  DispatcherServlet调用HandlerAdapter处理器适配器。
+4. DispatcherServlet调用HandlerAdapter处理器适配器。
 
-5、  HandlerAdapter经过适配调用具体的处理器(Controller，也叫后端控制器)。
+5. HandlerAdapter经过适配调用具体的处理器(Controller，也叫后端控制器)。
 
-6、  Controller执行完成返回ModelAndView。
+6. Controller执行完成返回ModelAndView。
 
-7、  HandlerAdapter将controller执行结果ModelAndView返回给DispatcherServlet。
+7. HandlerAdapter将controller执行结果ModelAndView返回给DispatcherServlet。
 
-8、  DispatcherServlet将ModelAndView传给ViewReslover视图解析器。
+8. DispatcherServlet将ModelAndView传给ViewReslover视图解析器。
 
-9、  ViewReslover解析后返回具体View。
+9. ViewReslover解析后返回具体View。
 
-10、DispatcherServlet根据View进行渲染视图（即将模型数据填充至视图中）。
+10. DispatcherServlet根据View进行渲染视图（即将模型数据填充至视图中）。
 
-11、 DispatcherServlet响应用户。
+11. DispatcherServlet响应用户。

@@ -20,27 +20,29 @@ spring:
         root: dev
       preferIpAddress: true
     gateway:
+      cache:
+        shouldUseReadOnlyServerCache: true
       httpclient:
         response-timeout: 30000
         connect-timeout: 1000
       discovery:
         locator:
-          enabled: false
+          enabled: true
           lower-case-service-id: true
-          filters:
-          - name: RewritePath
-            args:
-              regexp: "'/'+serviceId+'/(?<remaining>.*)'"
-              replacement: "'/${remaining}'"
-          - name: Hystrix
-            args:
-              name: serviceId
-              fallbackUri: "'forward:/fallback'"
-          - name: Retry
-            args:
-              retries: 2
-              statuses:
-              - "'NOT_FOUND'"
+#          filters:
+#          - name: RewritePath
+#            args:
+#              regexp: "'/'+serviceId+'/(?<remaining>.*)'"
+#              replacement: "'/${remaining}'"
+#          - name: Hystrix
+#            args:
+#              name: serviceId
+#              fallbackUri: "'forward:/fallback'"
+#          - name: Retry
+#            args:
+#              retries: 2
+#              statuses:
+#              - "'NOT_FOUND'"
 #              - "'GATEWAY_TIMEOUT'"
 #              series:
 #              - "'SUCCESSFUL'"
