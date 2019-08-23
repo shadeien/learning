@@ -18,7 +18,8 @@ public class ExecutorServiceMain {
     }
 
     public static void rejectHandle() {
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 1000, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(10), new MyRejectedExecutionHandler());
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 1000,
+                TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(10), new MyRejectedExecutionHandler());
         for (int i=0; i<100; i++) {
             int finalI = i;
             executor.execute(() -> {

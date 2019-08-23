@@ -74,8 +74,8 @@ public class ConcurrentMain {
     }
 
     public static void test() {
-        HiddenIterator hi = new HiddenIterator();
-        hi.addTenThings();
+//        HiddenIterator hi = new HiddenIterator();
+//        hi.addTenThings();
 
         ExecutorService service = Executors.newFixedThreadPool(3);
         MyQueue queue = new MyQueue();

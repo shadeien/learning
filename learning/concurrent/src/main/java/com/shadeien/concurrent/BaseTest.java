@@ -15,17 +15,32 @@ public class BaseTest {
 
         HashMap map = new HashMap();
         map.put(null, "a");
-        map.put(null, "a");
+        map.put(null, "b");
+        map.put("a", "a");
+        map.put("b", "a");
+        map.put("vc", "a");
+        map.put("c", "a");
 
         map.size();
 
         Iterator<Map.Entry> iterator= map.entrySet().iterator();
 
+        System.out.println("-------hashmap entrySet start---------");
         while(iterator.hasNext())
         {
             Map.Entry entry = iterator.next();
             System.out.println(entry.getKey()+":"+entry.getValue());
         }
+        System.out.println("-------hashmap entrySet end---------");
+
+        Iterator iterator1 = map.keySet().iterator();
+        System.out.println("-------hashmap keySet start---------");
+        while(iterator1.hasNext())
+        {
+            Object key = iterator1.next();
+            System.out.println(key+":"+map.get(key));
+        }
+        System.out.println("-------hashmap keySet end---------");
 
         Hashtable hashtable = new Hashtable();
         hashtable.put("c", "a");

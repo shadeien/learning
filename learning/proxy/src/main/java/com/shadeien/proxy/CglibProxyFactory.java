@@ -19,6 +19,7 @@ public class CglibProxyFactory implements MethodInterceptor {
     public Object getProxyInstance(){
         //1.工具类
         Enhancer en = new Enhancer();
+//        en.setin
         //2.设置父类
         en.setSuperclass(target.getClass());
         //3.设置回调函数
@@ -33,7 +34,8 @@ public class CglibProxyFactory implements MethodInterceptor {
         System.out.println("开始事务...");
 
         //执行目标对象的方法
-        Object returnValue = method.invoke(target, args);
+//        Object returnValue = method.invoke(target, args);
+        Object returnValue = methodProxy.invokeSuper(o, args);
 
         System.out.println("提交事务...");
 

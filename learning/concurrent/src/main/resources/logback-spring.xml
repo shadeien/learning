@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_FILE" value="g://logs//concurrent.log"/>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <logger name="org.springframework.web" level="INFO" />
+
+    <springProfile name="dev">
+        <logger name="com.shadeien.drools" level="TRACE" />
+    </springProfile>
+
+</configuration>

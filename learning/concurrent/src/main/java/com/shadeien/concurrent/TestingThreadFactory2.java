@@ -9,26 +9,20 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
-public class TestingThreadFactory implements ThreadFactory {
+public class TestingThreadFactory2 implements ThreadFactory {
     public final AtomicInteger poolNumber = new AtomicInteger(1);
     public final AtomicInteger threadNumber = new AtomicInteger(1);
-    private final ThreadGroup group;
     private final String namePrefix;
 
-    public TestingThreadFactory() {
-        SecurityManager s = System.getSecurityManager();
-        group = (s != null) ? s.getThreadGroup() :
-                Thread.currentThread().getThreadGroup();
-        namePrefix = "TestingThreadFactorypool-" +
+    public TestingThreadFactory2() {
+        namePrefix = "TestingThreadFactory2pool-" +
                 poolNumber.getAndIncrement() +
                 "-thread-";
     }
 
     @Override
     public Thread newThread(Runnable r) {
-        Thread t = new Thread(group, r,
-                namePrefix + threadNumber.getAndIncrement(),
-                0);
+        Thread t = new Thread(r, namePrefix + threadNumber.getAndIncrement());
         if (t.isDaemon())
             t.setDaemon(false);
         if (t.getPriority() != Thread.NORM_PRIORITY)
@@ -39,7 +33,7 @@ public class TestingThreadFactory implements ThreadFactory {
 
     public static void main(String[] args) {
         int MAX_SIZE = 10;
-        ThreadFactory factory = new TestingThreadFactory();
+        ThreadFactory factory = new TestingThreadFactory2();
         ExecutorService exec = Executors.newFixedThreadPool(MAX_SIZE, factory);
         for (int i = 0; i < 10 * MAX_SIZE; i++) {
             int finalI = i;
@@ -50,7 +44,7 @@ public class TestingThreadFactory implements ThreadFactory {
                 }
             });
         }
-        for (int i = 0; i < 20 && ((TestingThreadFactory) factory).threadNumber.get()<MAX_SIZE; i++) {
+        for (int i = 0; i < 20 && ((TestingThreadFactory2) factory).threadNumber.get()<MAX_SIZE; i++) {
             try {
                 log.info("i:{}", i);
                 Thread.sleep(100);
@@ -58,7 +52,7 @@ public class TestingThreadFactory implements ThreadFactory {
                 e.printStackTrace();
             }
         }
-        log.info("size:{}, getQueue:{}, getActiveCount:{}, getTaskCount:{}, getPoolSize:{}, coreSize:{}", ((TestingThreadFactory) factory).threadNumber.get(),
+        log.info("size:{}, getQueue:{}, getActiveCount:{}, getTaskCount:{}, getPoolSize:{}, coreSize:{}", ((TestingThreadFactory2) factory).threadNumber.get(),
                 ((ThreadPoolExecutor)exec).getQueue().size(),
                 ((ThreadPoolExecutor)exec).getActiveCount(),
                 ((ThreadPoolExecutor)exec).getTaskCount(),
