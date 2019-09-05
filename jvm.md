@@ -247,7 +247,7 @@ jcmd process_id GC.heap_dump /root/heap_dump.hprof
 ### jhat
 读取内存堆转储，并有助于分析。并运行一个小型的HTTP服务器，该服务允许你通过一系列网页链接查看堆转储信息.
 
-### jamp
+### jmap
 提供堆转储和其他JVM内存使用信息
 ```java
 %  jmap -clstats process_id
