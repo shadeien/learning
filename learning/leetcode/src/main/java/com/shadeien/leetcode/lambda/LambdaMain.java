@@ -21,7 +21,13 @@ public class LambdaMain {
         }
     }
 
+    public static void print(String s, Print<String> print) {
+        print.print(s);
+    }
+
     public static void main(String[] args) {
+
+        print("abc", (s) -> System.out.println(s));
 
         List<Long> userIds = new ArrayList<>();
         List<Long> arrs = Arrays.asList(1l, 2l, 3l, 4l, 5l);

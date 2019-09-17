@@ -65,6 +65,13 @@ if (InitialRAMFraction<OldSize) {
 1. 用于存放编译期生成的各种字面量和符号引用，类加载后进入方法区的运行时常量池中存放
 2. 运行期间可以放入新的常量
 
+### Code Cache
+Java代码在执行次数达到一个阈值会触发JIT编译，一旦代码块被编译成本地机器码，下次执行的时候会直接运行编译后的本地机器码。所以这本地机器码必须被缓存起来，而缓存这个本地机器码的内存区域就是Code Cache，它并不属于Java堆的一部分
+
+JVM生成的native code存放的内存空间称之为Code Cache；JIT编译、JNI等都会编译代码到native code，其中JIT生成的native code占用了Code Cache的绝大部分空间
+
+-XX:ReservedCodeCacheSize用于设置Reserved code cache的最大大小，通常默认是240M；对于有些应用来说240M可能太大，code cache可能都填不满，相当于unconstrained，此时JIT就会继续编译任何它认为可以编译的code
+
 ## JVM调优
 [JVM调优](https://www.cnblogs.com/likehua/p/3369823.html "JVM调优").
 

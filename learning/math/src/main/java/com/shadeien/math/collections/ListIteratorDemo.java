@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.ListIterator;
 
 @Slf4j
@@ -27,6 +28,20 @@ public class ListIteratorDemo {
         int s = Collections.binarySearch(list, "c");
         log.info("list:{}", list);
         log.info("it:{}", s);
+
+        for (String str: list) {
+            log.info(str);
+        }
+
+        LinkedList<String> linkedList = new LinkedList<>(list);
+        for (String str: linkedList) {
+            log.info(str);
+        }
+
+        String[] arrs = (String[]) list.toArray();
+        for (String str: arrs) {
+            log.info(str);
+        }
 
     }
 }

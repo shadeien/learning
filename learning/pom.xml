@@ -27,6 +27,7 @@
         <module>reactor</module>
         <module>jmh</module>
         <module>hessain</module>
+        <module>es</module>
     </modules>
 
     <parent>

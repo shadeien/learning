@@ -31,6 +31,7 @@ public class JsonMain {
         log.info("jackson:{}", user1);
 
         context.close();
+
     }
 
     @Data
@@ -41,7 +42,32 @@ public class JsonMain {
     }
 
     public enum Sex {
-        MALE,
-        FEMALE;
+        MALE("male", 0),
+        FEMALE("female", 1),
+        ;
+
+        private String name;
+        private int value;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public void setValue(int value) {
+            this.value = value;
+        }
+
+        Sex(String name, int value) {
+            this.name = name;
+            this.value = value;
+        }
     }
 }
