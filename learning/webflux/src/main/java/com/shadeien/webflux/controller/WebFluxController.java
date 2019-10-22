@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
@@ -30,7 +31,7 @@ public class WebFluxController {
     @Autowired
     DeviceInfoService deviceInfoService;
 
-    @Autowired
+//    @Autowired
     Sender sender;
 
     @GetMapping("/rabbitTest")
@@ -49,7 +50,7 @@ public class WebFluxController {
 
     }
 
-    @Autowired
+//    @Autowired
     RabbitTemplate rabbitTemplate;
 
     @GetMapping("/rabbitTemplateTest")
@@ -87,6 +88,14 @@ public class WebFluxController {
                 });
     }
 
+    @GetMapping("/test2")
+    public Object test2() {
+        log.info("test2");
+        deviceInfoService.find();
+
+        return Flux.just("success").delayElements(Duration.ofSeconds(3));
+    }
+
     @GetMapping("/test1")
     public Object test1() {
         log.info("test1");
@@ -115,7 +124,7 @@ public class WebFluxController {
 //        return Flux.just("success").delayElements(Duration.ofSeconds(3));
     }
 
-    @GetMapping("/{user}")
+    @RequestMapping("/{user}")
     public Object getUser(@PathVariable Long user) {
         List<String> words = Arrays.asList("a", "b", "c");
         Object obj = "";

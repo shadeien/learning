@@ -2,6 +2,9 @@ package com.shadeien.math.solution8;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 炸弹人
+ */
 @Slf4j
 public class Solution8 {
 

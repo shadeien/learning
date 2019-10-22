@@ -28,6 +28,7 @@
         <module>jmh</module>
         <module>hessain</module>
         <module>es</module>
+        <module>tomcat</module>
     </modules>
 
     <parent>

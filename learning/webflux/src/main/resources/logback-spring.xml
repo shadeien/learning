@@ -7,5 +7,6 @@
     <springProfile name="dev">
         <logger name="com.shadeien.webflux" level="TRACE" />
     </springProfile>
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
 
 </configuration>

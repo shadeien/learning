@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * 火柴棍等式
+ */
 @Slf4j
 public class Solution9 {
     static int[] a = {6, 2, 5, 5, 4, 5, 6, 3, 7, 6};

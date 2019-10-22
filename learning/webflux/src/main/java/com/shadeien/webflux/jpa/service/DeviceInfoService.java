@@ -1,5 +1,6 @@
 package com.shadeien.webflux.jpa.service;
 
+import com.shadeien.webflux.jpa.DeviceDto;
 import com.shadeien.webflux.jpa.entity.DeviceInfo;
 import com.shadeien.webflux.jpa.repository.DeviceInfoRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +21,11 @@ public class DeviceInfoService {
     @Autowired
     private DeviceInfoRepository deviceInfoRepository;
 
-//    public void find() {
-//        deviceInfoRepository.findAllById()
-//    }
+    public void find() {
+//        Object byUserId = deviceInfoRepository.findByUserId1(-1642029732);
+        DeviceDto byUserId1 = deviceInfoRepository.findByUserId(-482970982);
+        log.info("{} {}", 1, byUserId1);
+    }
 
     @Transactional(readOnly = false)
     public void saveNewDevice() {

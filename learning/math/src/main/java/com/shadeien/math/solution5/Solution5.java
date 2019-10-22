@@ -4,6 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Stack;
 
+/**
+ * 解密回文——栈 .
+ */
 @Slf4j
 public class Solution5 {
 

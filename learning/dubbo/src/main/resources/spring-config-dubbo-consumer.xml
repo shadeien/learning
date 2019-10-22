@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+	     http://code.alibabatech.com/schema/dubbo
+	     http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="dubbo-test" owner="xdw" organization="wwwarehouse"/>
+
+    <!--zookeeper注册中心 -->
+    <dubbo:registry protocol="zookeeper" address="192.168.6.21:2181"/>
+    <!---->
+    <dubbo:protocol name="dubbo" port="20880" accesslog="G:\\logs\\dubbo-access-consumer.log"/>
+
+    <!-- 服务的缺省值配置
+    <dubbo:provider group="impl" retries="0"/>
+    -->
+
+    <!-- 默认客户端配置 -->
+    <dubbo:consumer check="false" group="impl"/>
+
+    <dubbo:reference interface="com.shadeien.dubbo.IComplexModelService" id="complexModelService1"
+                     protocol="dubbo" version="1.0.0" group="impl"/>
+</beans>

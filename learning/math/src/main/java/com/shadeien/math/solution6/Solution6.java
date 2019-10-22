@@ -7,6 +7,9 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * 纸牌游戏——小猫钓鱼
+ */
 @Slf4j
 public class Solution6 {
 

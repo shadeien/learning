@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * 解密 QQ 号——队列
+ */
 @Slf4j
 public class Solution4 {
 
