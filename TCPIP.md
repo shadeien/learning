@@ -199,6 +199,13 @@ https://blog.csdn.net/dangzhangjing97/article/details/81008836
 - SYN:同步序列编号（Synchronize Sequence Numbers）栏有效。该标志仅在三次握手建立TCP连接时有效。它提示TCP连接的服务端检查序列编号，该序列编号为TCP连接初始端（一般是客户端）的初始序列编号。在这里，可以把TCP序列编号看作是一个范围从0到4，294，967，295的32位计数器。通过TCP连接交换的数据中每一个字节都经过序列编号。在TCP报头中的序列编号栏包括了TCP分段中第一个字节的序列编号。
 - FIN:结束标志
 
+## TCP Basic
+- ActiveOpens: tcp_connect()，发送SYN时，加１
+- PassiveOpens: tcp_create_openreq_child(), 被动三路握手完成，加１
+- TW: 等待关闭的TCP连接数。
+- inuse：正在使用的TCP套接字数量。
+- alloc(allocated)：已分配的TCP套接字数量。
+
 
 # 引用
 https://blog.csdn.net/u010853261/article/details/82109971

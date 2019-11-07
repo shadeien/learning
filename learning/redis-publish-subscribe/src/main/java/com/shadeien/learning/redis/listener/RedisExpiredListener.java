@@ -1,4 +1,4 @@
-package com.shadeien.learning.redis;
+package com.shadeien.learning.redis.listener;
 
 import com.shadeien.learning.redis.spring.MyRedisTemplate;
 import lombok.extern.slf4j.Slf4j;
