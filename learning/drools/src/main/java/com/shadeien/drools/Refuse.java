@@ -1,9 +1,12 @@
 package com.shadeien.drools;
 
+import lombok.Data;
+
 import java.io.Serializable;
+import java.util.List;
 
+@Data
 public class Refuse implements Serializable {
-
 
     /**
      * 年龄
@@ -21,34 +24,7 @@ public class Refuse implements Serializable {
      * 居住城市
      */
     private String addressCity;
-    public int getAge() {
-        return age;
-    }
-    public void setAge(int age) {
-        this.age = age;
-    }
-    public String getWorkCity() {
-        return workCity;
-    }
-    public void setWorkCity(String workCity) {
-        this.workCity = workCity;
-    }
-    public String getApplyCity() {
-        return applyCity;
-    }
-    public void setApplyCity(String applyCity) {
-        this.applyCity = applyCity;
-    }
-    public String getAddressCity() {
-        return addressCity;
-    }
-    public void setAddressCity(String addressCity) {
-        this.addressCity = addressCity;
-    }
-    @Override
-    public String toString() {
-        return "Refuse [age=" + age + ", workCity=" + workCity + ", applyCity="
-                + applyCity + ", addressCity=" + addressCity + "]";
-    }
 
+    private List<String> condition1;
+    private List<String> condition2;
 }

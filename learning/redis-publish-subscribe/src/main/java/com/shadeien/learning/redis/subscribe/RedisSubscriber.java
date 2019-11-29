@@ -4,6 +4,7 @@ import com.shadeien.learning.redis.listener.RedisListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,8 @@ public class RedisSubscriber {
      */
     public void subscribe(String channel) {
         log.info("subscribe channel:{}", channel);
-        ChannelTopic topic = new ChannelTopic(channel);
+        PatternTopic topic = new PatternTopic(channel);
+//        ChannelTopic topic = new ChannelTopic(channel);
         container.addMessageListener(redisListener, topic);
     }
 

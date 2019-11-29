@@ -1,0 +1,70 @@
+package rules.refuse
+import com.shadeien.drools.Refuse
+import java.util.List
+import java.util.ArrayList
+import com.shadeien.drools.RefuseResult
+
+global java.util.HashMap refuseDate
+
+rule "test"
+	no-loop true
+	lock-on-active true
+	salience 0
+	when
+	    $sourceList: List();
+	    $conditionList: List();
+	    $result: RefuseResult();
+		$data: Refuse(toCompareList(condition1, $conditionList)) from $sourceList
+	then
+	    $result.setData($data.getAge());
+	    $result.setOpen(true);
+end
+
+rule "demo1"
+	no-loop true
+	lock-on-active true
+	salience 1
+	when
+	    $blackList: List();
+		$data:Refuse(toCompareList(condition1, $blackList) && toCompareList(condition2, $blackList))
+	then
+	    System.out.println("data:"+$data);
+//		refuseDate.put("name","0");
+end
+
+rule "demo2"
+	no-loop true
+	lock-on-active true
+	salience 2
+	when
+	    $blackList: List();
+		$data:Refuse(toCompareList(condition1, $blackList))
+	then
+	    System.out.println("data:"+$data);
+//		refuseDate.put("name","0");
+end
+
+rule "demo3"
+	no-loop true
+	lock-on-active true
+	salience 3
+	when
+	    $blackList: List();
+		$data:Refuse(toCompareList(condition2, $blackList))
+	then
+	    System.out.println("data:"+$data);
+//		refuseDate.put("name","0");
+end
+
+function Boolean toCompareList(List targetList, List blackList){
+    if (null == targetList)
+        return false;
+    Boolean flag = false;
+    for(Object obj : targetList){
+        if(blackList.contains(obj)){
+            flag  = true;
+            break;
+        }
+    }
+    return flag;
+}
