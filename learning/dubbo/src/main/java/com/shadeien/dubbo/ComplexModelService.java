@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ComplexModelService implements IComplexModelService {
     @Override
-    public void save(Model model) {
+    public String save(Model model) {
         log.info("save:{}", JSON.toJSONString(model));
+
+        return "str";
     }
 }

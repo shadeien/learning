@@ -29,6 +29,7 @@
         <module>hessain</module>
         <module>es</module>
         <module>tomcat</module>
+        <module>dubbo-2.5.6-consumer</module>
     </modules>
 
     <parent>

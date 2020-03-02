@@ -5,8 +5,17 @@ import java.util.*;
 public class BaseTest {
 
     public static void main(String[] args) {
+        String.valueOf(9L);
+
         Person p = new Person();
         p.setName("a");
+
+        modifyPersonName(p);
+        System.out.println("after name: "+p.getName());
+
+        int num = 0;
+        modifyNum(num);
+        System.out.println("after num: "+num);
 
         Person p1 = p;
         p1.setName("b");
@@ -54,6 +63,17 @@ public class BaseTest {
 //        Integer h=new Integer(59);
 //        int g=59;
 //        System.out.println(g==h);//输出 true
+    }
+
+    public static void modifyPersonName(Person person) {
+        person = new Person();
+        person.setName("abc");
+        System.out.println("name: "+person.getName());
+    }
+
+    public static void modifyNum(int num) {
+        num = 2;
+        System.out.println("num: "+num);
     }
 
     static class Person {
