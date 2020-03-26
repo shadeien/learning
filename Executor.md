@@ -7,7 +7,7 @@ Executor 管理多个异步任务的执行，而无需程序员显式地管理�
 - CachedThreadPool：一个任务创建一个线程；
 - FixedThreadPool：所有任务只能使用固定大小的线程；
 - SingleThreadExecutor：相当于大小为 1 的 FixedThreadPool。
-- ScheduledThreadPool: 创建一个固定长度的线程池，并以延迟或定时的方法来执行任务, 累死Timer
+- ScheduledThreadPool: 创建一个固定长度的线程池，并以延迟或定时的方法来执行任务, 类似Timer
 
 ```java
 public static void main(String[] args) {

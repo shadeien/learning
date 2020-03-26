@@ -47,24 +47,24 @@ void normal(String param1, long param2);
 客户端传参示例1：
 ```json
 {
-"data": {
-"param1":"3333",
-"param2":"adsad"
-},
-"method": "normal",
-"interface": "com.wwwarehouse.dubbo.TestApi"
+    "data": {
+        "param1": "3333",
+        "param2": "adsad"
+    },
+    "method": "normal",
+    "interface": "com.wwwarehouse.dubbo.TestApi"
 }
 ```
 
 示例2:
 ```json
 {
-"data": {
-"param1":"adsad",
-"param2":"3333"
-},
-"method": "normal",
-"interface": "com.wwwarehouse.dubbo.TestApi"
+    "data": {
+        "param1": "adsad",
+        "param2": "3333"
+    },
+    "method": "normal",
+    "interface": "com.wwwarehouse.dubbo.TestApi"
 }
 ```
 结果：
@@ -83,22 +83,30 @@ public void normal3(Model<SubModel> param1, long param2);
 传参1：
 
 {
-"data": {
-"param1":{
-"collection":["sdsa", "ssss"],
-"name":"123",
-"map":{
-"key":{
-"name":"subname",
-"collection":["subcoll", "subcollection"],
-"map":{"key":"value"}
-}
-}
-},
-"param2":"1111"
-},
-"method": "normal3",
-"interface": "com.wwwarehouse.dubbo.TestApi"
+    "data": {
+        "param1": {
+            "collection": [
+                "sdsa",
+                "ssss"
+            ],
+            "name": "123",
+            "map": {
+                "key": {
+                    "name": "subname",
+                    "collection": [
+                        "subcoll",
+                        "subcollection"
+                    ],
+                    "map": {
+                        "key": "value"
+                    }
+                }
+            }
+        },
+        "param2": "1111"
+    },
+    "method": "normal3",
+    "interface": "com.wwwarehouse.dubbo.TestApi"
 }
 ```
 param1内部数据顺序变换无影响，正常返回.
@@ -123,20 +131,24 @@ public void normal5(Collection<Model<String>> param1, EnumNormal param2);
 传参：
 
 {
-"data": {
-"param1": [{
-"collection": ["sdsa", "ssss"],
-"name": "123",
-"map": {
-"key": "value",
-"key2": "value3"
-}
-}
-],
-"param2": "WED"
-},
-"method": "normal5",
-"interface": "com.wwwarehouse.dubbo.TestApi"
+    "data": {
+        "param1": [
+            {
+                "collection": [
+                    "sdsa",
+                    "ssss"
+                ],
+                "name": "123",
+                "map": {
+                    "key": "value",
+                    "key2": "value3"
+                }
+            }
+        ],
+        "param2": "WED"
+    },
+    "method": "normal5",
+    "interface": "com.wwwarehouse.dubbo.TestApi"
 }
 ```
 报错：
